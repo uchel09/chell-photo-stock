@@ -1,0 +1,16 @@
+.follow {
+  width: 95vw;
+  max-width: 1200px;
+  min-height: 90vh;
+  background: white;
+  box-shadow: 4px 2px 2px #abf1ff;
+  border-radius: 20px;
+  border: 2px solid #c5f5ff;
+}
+.follow > h1 {
+  text-align: center;
+  text-transform: capitalize;
+  padding-top: 10px;
+  color: #0fd7ff;
+  text-shadow: 2px 2px 4px #abf1ff;
+}

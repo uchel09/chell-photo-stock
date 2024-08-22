@@ -1,0 +1,85 @@
+.user_card {
+  width: 100%;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 10px 10px;
+  background: #0fd7ff;
+  cursor: pointer;
+  box-shadow: 6px 4px 2px #84ebff;
+  position: relative;
+}
+.user_card > .avatar {
+  width: 100px;
+  height: 100px;
+  background: #c9edf4;
+  padding: 4px;
+  border: 3px solid #008cff;
+}
+
+.user_card > .avatar > img {
+  border-radius: 50%;
+}
+
+.u_c_info {
+  width: 100%;
+  overflow: hidden;
+}
+
+.u_c_info > h3 {
+  text-transform: capitalize;
+  font-size: 1.4rem;
+  color: white;
+  font-weight: 400;
+  line-height: 35px;
+}
+.u_c_info > small {
+  color: white;
+}
+.user_card > .btn {
+  margin: 8px auto 0 auto;
+  background: #ffffff;
+  color: black;
+  border-radius: 20px;
+  padding: 0 35px;
+  height: auto;
+  position: static;
+  z-index: 2;
+}
+
+.user_card > button:hover {
+  background: #009dff;
+  box-shadow: 2px 3px 2px white;
+}
+.user_card > button:active {
+  background: #009dff;
+  box-shadow: none;
+}
+
+.user_card > .btn > i {
+  font-size: 16px;
+}
+
+.user_card > .btn_logout {
+    background-color: rgb(253, 102, 127);
+    color: white;
+}
+.user_card > .btn_logout:hover {
+    background-color: rgb(255, 50, 91);
+  color: white;
+}
+
+.user_card > .following {
+  background: #008cff;
+  color: white;
+}
+.user_card a {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}

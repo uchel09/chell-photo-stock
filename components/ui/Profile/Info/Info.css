@@ -8,8 +8,14 @@
   gap: 20px;
 }
 .p_i_info > .avatar {
-  width: 130px;
-  height: 130px;
+  width: 126px;
+  height: 126px;
+  padding: 3px;
+  background: white;
+  border: 3px solid #00cbf4;
+}
+.p_i_info > .avatar img {
+  border-radius: 50%;
 }
 .p_i_text {
   flex: 1;

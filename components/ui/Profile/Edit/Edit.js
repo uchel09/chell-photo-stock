@@ -48,8 +48,9 @@ const ProfileEdit = ({ user, setIsEdit }) => {
       toast.error(res?.message);
       setIsEdit(false);
     }
-
-    toast.success(res?.successMessage);
+    if (res?.successMessage) {
+      toast.success(res?.successMessage);
+    }
   };
 
   return (
@@ -88,7 +89,7 @@ const ProfileEdit = ({ user, setIsEdit }) => {
           />
         </div>
       </div>
-      <button className="btn_submit" disabled={loading}>
+      <button className="btn_submit_second" disabled={loading}>
         {loading ? "Loading..." : "Upload"}
       </button>
     </form>

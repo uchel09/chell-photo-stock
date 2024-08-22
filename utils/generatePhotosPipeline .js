@@ -4,7 +4,7 @@ import getServerUser from "./getServer";
 import { Types } from "mongoose";
 
 // Photos pipeline
-export async function generatePhotosPipeline({ sort, limit, match }) {
+export async function generatePhotosPipeline({ sort, limit, match, search }) {
   const user = await getServerUser();
 
   const userId = user ? new Types.ObjectId(user?._id) : undefined;
@@ -48,6 +48,42 @@ export async function generatePhotosPipeline({ sort, limit, match }) {
       },
     },
   ];
+
+ const search_pipeline = [
+   {
+     $match: {
+       $or: [
+         { title: { $regex: search, $options: "i" } },
+         { tags: { $in: [new RegExp(search, "i")] } },
+       ],
+     },
+   },
+ ];
+
+
+  if (search) {
+    return [...search_pipeline, ...base_pipeline];
+  }
+  return base_pipeline;
+}
+
+export async function generatePhotosCountPipeline({ match,search }) {
+  const base_pipeline = [{ $match: match }, { $count: "total" }];
+
+   const search_pipeline = [
+     {
+       $match: {
+         $or: [
+           { title: { $regex: search, $options: "i" } },
+           { tags: { $in: [new RegExp(search, "i")] } },
+         ],
+       },
+     },
+   ];
+
+   if (search) {
+     return [...search_pipeline, ...base_pipeline];
+   }
 
   return base_pipeline;
 }

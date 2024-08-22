@@ -1,37 +1,47 @@
-.profile_edit{
-    width: 100%;
-    max-width: 600px;
-    background: white;
-    padding: 20px;
+.profile_edit {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 0.5px solid #10d7ff;
+  box-shadow: 8px 10px 2px #84ebff;
 }
 
-.p_e_container{
-    width: 100%;
-    display: flex;
-    gap: 15px;
+.p_e_container {
+  width: 100%;
+  display: flex;
+  gap: 15px;
 }
-.p_e_container > .avatar{
-    width: 140px;
-    height: 140px;
-    cursor: pointer;
+.p_e_container > .avatar {
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  padding: 2px;
+  background-color: white;
+  border: 4px solid #84ebff;
 }
-
-.p_e_text{
-    flex: 1;
-}
-
-.p_e_text >input{
-width: 100%;
-height: 60px;
-padding: 0 10px;
-border-radius: 4px;
-overflow: hidden;
-border: 1px solid #d1d1d1;
-margin-bottom: 15px;
+.p_e_container > .avatar img{
+  border-radius: 50%;
 }
 
-.profile_edit> .btn_submit{
-    width: 100%;
-    height: 50px;
-    margin-top: 10px ;
+.p_e_text {
+  flex: 1;
+}
+
+.p_e_text > input {
+  width: 100%;
+  height: 55px;
+  padding: 0 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #00cbf4;
+  margin-bottom: 15px;
+}
+
+
+.profile_edit > .btn_submit_second {
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
 }

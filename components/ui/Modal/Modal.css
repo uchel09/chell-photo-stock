@@ -22,8 +22,9 @@
 
 .modal_container {
   position: relative;
+  background: transparent;
   z-index: 100;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+
 }
 
 .modal_btn_close {
@@ -33,7 +34,7 @@
   top: -9px;
   right: -9px;
   z-index: 100;
-  background: #6b61ba;
+  background: #00d5ff;
   color: white;
   border-radius: 50%;
   overflow: hidden;
@@ -50,6 +51,7 @@
   max-width: 95vw;
   max-height: 95vh;
   overflow-y: auto;
+
 }
 .modal_content ::-webkit-scrollbar {
   display: none;

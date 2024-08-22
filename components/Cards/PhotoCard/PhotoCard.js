@@ -1,14 +1,18 @@
+"use client";
 import Image from "next/image";
 import "./PhotoCard.css";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { handleDownLoadImage } from "@/utils/downloadImage";
 import { signIn } from "next-auth/react";
-import { favouritePhoto } from "@/actions/photoAction";
+import { deletePhoto, favouritePhoto } from "@/actions/photoAction";
 import toast from "react-hot-toast";
+import UploadCard from "../UploadCard/UploadCard";
 
-const PhotoCard = React.memo(({ photo, setPhotos, index }) => {
+const PhotoCard = React.memo(({ photo, setPhotos, index,setPIndex }) => {
+  const [isEdit, setIsEdit] = useState(false);
+
   const handleFavoritePhoto = async () => {
     if (!photo.myUserId) {
       return signIn("google");
@@ -22,18 +26,40 @@ const PhotoCard = React.memo(({ photo, setPhotos, index }) => {
 
     const res = await favouritePhoto(photo);
 
-    toast.success(`${photo.isFavourite?"Photo Unfavorited":"Photo Favorited"}`,{position:"bottom right"})
+    toast.success(
+      `${photo.isFavourite ? "Photo Unfavorited" : "Photo Favorited"}`,
+      { position: "bottom right" }
+    );
     if (res?.message) {
       toast.error(res?.message);
     }
   };
 
-  const seePhoto =()=>{
-    console.log(photo?.user)
+  const handleDeletePhoto = async () => {
+    if (confirm("Are you sure want to delete this photo?")) {
+      const res = await deletePhoto(photo);
+      if (res?.message) {
+        toast.error(res.message);
+        return;
+      }
+      setPhotos((photos) => photos.filter((_, i) => index !== i));
+      toast.success(res.successMessage);
+    }
+  };
+
+  if (isEdit) {
+    return (
+      <UploadCard
+        file={photo}
+        setFiles={setPhotos}
+        index={index}
+        setIsEdit={setIsEdit}
+      />
+    );
   }
 
   return (
-    <div className="photo_card" onClick={seePhoto}>
+    <div className="photo_card">
       <Image
         src={photo?.imageUrl}
         alt={photo?.title}
@@ -47,10 +73,10 @@ const PhotoCard = React.memo(({ photo, setPhotos, index }) => {
       <div className="p_c_top">
         {photo?.myUserId === photo?.user._id ? (
           <>
-            <button className="btn p_c_btn">
+            <button className="btn p_c_btn" onClick={handleDeletePhoto}>
               <i className="material-symbols-outlined">delete</i>
             </button>
-            <button className="btn p_c_btn">
+            <button className="btn p_c_btn" onClick={() => setIsEdit(true)}>
               <i className="material-symbols-outlined" style={{}}>
                 edit
               </i>
@@ -101,7 +127,7 @@ const PhotoCard = React.memo(({ photo, setPhotos, index }) => {
         </button>
       </div>
 
-      <button className="btn p_c_btn_overflow" />
+      <button className="btn p_c_btn_overflow" onClick={()=>setPIndex(index)}/>
     </div>
   );
 });

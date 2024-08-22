@@ -74,7 +74,7 @@ const Info = ({ user }) => {
           <strong>{formatNumber(user?.total_followings)}</strong>
           <span>Followings</span>
         </Link>
-        <Link href={`/profile/${user?._id}/following`}>
+        <Link href={`/profile/${user?._id}/follower`}>
           <strong>{formatNumber(totalFollowers)}</strong>
           <span>followers</span>
         </Link>

@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
 import "./UploadCard.css";
-import React from "react";
+import React, { useState } from "react";
+import { updatePhoto } from "@/actions/photoAction";
+import toast from "react-hot-toast";
 
-const UploadCard = ({ file, setFiles, index }) => {
+const UploadCard = ({ file, setFiles, index, setIsEdit }) => {
+  const [loading, setLoading] = useState(false);
   //   validate tag and title
   const validate = ({ title, tags }) => {
     const errors = {};
@@ -76,8 +79,26 @@ const UploadCard = ({ file, setFiles, index }) => {
 
   //   remove Card file
   const handleRemoveFile = () => {
-    setFiles(files => files.filter((_, i) => i !== index));
+    if (setIsEdit) {
+      return setIsEdit(false);
+    }
+    setFiles((files) => files.filter((_, i) => i !== index));
   };
+
+
+  const handleUpdatePhoto= async()=>{
+    if(loading || file?.status === "error")return
+    setLoading(true)
+    const res = await updatePhoto(file)
+
+    if(res?.message){
+      return toast.error(res.message)
+    }else{
+      toast.success(res.successMessage)
+    }
+    setLoading(false)
+
+  }
 
   return (
     <div className={`upload_card ${file?.status}`}>
@@ -135,6 +156,16 @@ const UploadCard = ({ file, setFiles, index }) => {
       <button className="up_c_btn_close" onClick={handleRemoveFile}>
         <i className="material-symbols-outlined">close</i>
       </button>
+
+      {setIsEdit ? (
+        <button
+          className="up_c_btn_update"
+          disabled={loading || file?.status === "error"}
+          onClick={handleUpdatePhoto}
+        >
+          {loading ? "Loading..." : "Update Photo"}
+        </button>
+      ) : null}
     </div>
   );
 };

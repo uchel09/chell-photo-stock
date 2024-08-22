@@ -3,6 +3,9 @@
 import UserModel from "@/models/userModel";
 import { destroyFromCloudinary, uploadToCloudinary } from "@/utils/cloudinary";
 import { revalidatePath } from "next/cache";
+import { generateUsersMatch } from "@/utils/generateUsersMatch";
+import { generateUsersPipeline,generateUsersCountPipeline } from "@/utils/generateUsersPipeline";
+import { genrateNextCursor } from "@/utils/generateNextCursor";
 
 export async function getUserById({ myUser, id }) {
   try {
@@ -36,6 +39,16 @@ export async function getUserById({ myUser, id }) {
 export async function updateUser({ formData, name, user }) {
   try {
     const files = formData.getAll("files");
+    const isuserExist = await UserModel.findOne({ name });
+    if (isuserExist && !files.length) {
+      if (user._id === isuserExist._id.toString()) {
+        return {
+          successMessage: "Nothing changed",
+        };
+      }
+
+      throw new Error("name already exist");
+    }
 
     if (!files.length) {
       await UserModel.findByIdAndUpdate(user?._id, {
@@ -57,7 +70,7 @@ export async function updateUser({ formData, name, user }) {
     return { successMessage: "Update Success" };
   } catch (error) {
     return {
-      message: "update user failed or internal server error",
+      message: `${error.message}`,
     };
   }
 }
@@ -91,6 +104,51 @@ export async function followUser({ myUserId, _id, isFollowing }) {
   } catch (error) {
     return {
       message: "failed to follow, Internal server error",
+    };
+  }
+}
+
+export async function getUsers(query) {
+  try {
+    const search = query?.search;
+    const limit = query?.limit * 1 || 5;
+    const sort = query?.sort || "updatedAt";
+    const match = generateUsersMatch(query);
+
+    const pipeline = await generateUsersPipeline({
+      sort,
+      limit,
+      match,
+      search,
+    });
+
+
+    const users = JSON.parse(
+      JSON.stringify(await UserModel.aggregate(pipeline))
+    );
+
+    const next_cursor = genrateNextCursor({ sort, limit, data: users });
+
+    return { data: users, next_cursor };
+  } catch (error) {
+    return { message: error.message };
+  }
+}
+
+export async function getUsersCount(query) {
+  try {
+    const search = query?.search;
+    const match = generateUsersMatch(query);
+    const pipeline = await generateUsersCountPipeline({ match, search });
+
+    const [result] = JSON.parse(
+      JSON.stringify(await UserModel.aggregate(pipeline))
+    );
+
+    return result?.total || 0;
+  } catch (error) {
+    return {
+      message: error?.message,
     };
   }
 }

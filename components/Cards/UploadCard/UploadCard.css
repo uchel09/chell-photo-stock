@@ -120,3 +120,20 @@
     place-items: center;
 
 }
+
+.up_c_btn_update{
+  background: #00cbf4;
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  display: block;
+  margin-left: auto;
+  border-radius: 5px;
+}
+
+.up_c_btn_update:hover{
+  box-shadow:2px 2px 1px #84eafe;
+}
+.up_c_btn_update:active{
+  box-shadow:none
+}

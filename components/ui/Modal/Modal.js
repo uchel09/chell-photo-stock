@@ -3,7 +3,7 @@ import "./Modal.css";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const ModalComponent = ({ children, open }) => {
+const ModalComponent = ({ children, open, url }) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ModalComponent = ({ children, open }) => {
       return open(false);
     }
 
-    router.push(url || "/");
+    router.back()
   }
   return (
     <div className="modal">
